@@ -1,0 +1,13 @@
+﻿@model string
+
+@{
+    var ccpUrl = "https://www.tri-c.edu/college-credit-plus/";
+    ViewBag.Title = "Duplicate";
+}
+<div id="thanks-page">
+    <h1>@ViewBag.Title</h1>
+    <br/>
+    <p>You have already registered for this event.</p>
+    <p> If you need to change your registration, please contact the College Credit Plus Coordinator at <a href="mailto:@Html.Raw(@Model)?subject=College Credit Plus Orientation Registration">@Html.Raw(@Model)</a>
+or visit the <a href="@ccpUrl" target="_Blank">College Credit Plus</a> website for more information.</p>
+</div>

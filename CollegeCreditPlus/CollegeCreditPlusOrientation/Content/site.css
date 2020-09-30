@@ -1,0 +1,161 @@
+﻿html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* padding-bottom: 20px;*/
+    font-size: 16px;
+    /*   margin-bottom: 75px;  */
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Set padding to keep content from hitting the edges */
+.main-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    /* added for static footer */
+    padding-bottom: 15px;
+    min-height: 100%;
+}
+
+footer {
+    padding: 1em;
+    width: 100%;
+    margin: 0;
+    max-width: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+}
+
+.form-control {
+    font-size: inherit;
+}
+
+h1, h2 {
+    padding-top: 2em;
+}
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.rquired-field {
+    color: red;
+}
+
+.question {
+    font-weight: bold;
+    padding-bottom: 1.5em;
+}
+
+.answer {
+    font-weight: normal;
+    padding-top: .5em;
+}
+
+.radio-button-group > label {
+    font-weight: normal;
+    text-align: left;
+    width: auto;
+}
+
+.radio-button-group {
+    padding: 0 !important;
+}
+
+.std-paragraph {
+    padding-left: 1em;
+}
+
+/*.ui-datepicker {
+    z-index: 9999 !important;
+}
+*/
+.banner {
+    font-weight: bold;
+    color: red;
+}
+
+@media only screen and (min-width:863px) {
+    body {
+        padding-top: 75px;
+    }
+}
+
+@media only screen and (min-width:768px) {
+    label {
+        width: inherit;
+        text-align: right;
+    }
+}
+
+.logo {
+    padding: 0;
+}
+
+/* hide search */
+#search {
+    display: none;
+}
+
+/* hide header nav links */
+.toggleMenu, .nav {
+    display: none;
+}
+
+#globalNav ul {
+    display: none;
+}
+
+#dataForm {
+    padding: 1em 2em;
+    min-height: 40em;
+}
+
+#thanks-page, #error-page {
+    margin: 3.5em;
+}
+/* overload common.css - needed for datepicker */
+tfoot, thead {
+    /*  font-size: .9em;
+  */
+    font-size: .9em;
+    text-transform: none;
+}
+
+.tableRow {
+    background-color: white;
+    padding-top: 2em;
+}
+
+.tableColumn {
+    padding: 0 4em;
+    border: none;
+}
+/*td {
+    font-size: inherit;
+}
+*/
+.spinner-border {
+    margin-top: 5px;
+}
+
+/* set font size of button to body font-size */
+.btn {
+    font-size: inherit;
+    width: 6em;
+}
+
+.ui-datepicker {
+    z-index: 30000;
+    /* font-size: 10px;*/
+}

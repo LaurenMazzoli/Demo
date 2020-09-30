@@ -1,0 +1,63 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CollegeCreditPlusOrientation.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="EventRegistrationGUID" Type="System.Guid" Scope="Application">
+      <Value Profile="(Default)">2af94a9e-b326-43aa-a83a-6448b0a1e1f2</Value>
+    </Setting>
+    <Setting Name="ThanksMsg1" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Thank you for your interest in attending our College Credit Plus (CCP) New Student Orientation.  We received your response and look forward to your attendance at our event.</Value>
+    </Setting>
+    <Setting Name="devMode" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="simulatedUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">S01128347</Value>
+    </Setting>
+    <Setting Name="simulatedEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">lauren.mazzoli@tri-c.edu</Value>
+    </Setting>
+    <Setting Name="EmailHost" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">smtp.tri-c.edu</Value>
+    </Setting>
+    <Setting Name="EmailPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10879</Value>
+    </Setting>
+    <Setting Name="EmailFrom" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DoNotReply.CollegeCreditPlus@tri-c.edu</Value>
+    </Setting>
+    <Setting Name="EmailSubject" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">College Credit Plus Orientation Confirmation</Value>
+    </Setting>
+    <Setting Name="ThanksMsg2" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AlertMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="EastEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ccpeast@tri-c.edu</Value>
+    </Setting>
+    <Setting Name="WestEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ccpWest@tri-c.edu</Value>
+    </Setting>
+    <Setting Name="MetroEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ccpMetro@tri-c.edu</Value>
+    </Setting>
+    <Setting Name="WestshoreEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ccpWestshore@tri-c.edu</Value>
+    </Setting>
+    <Setting Name="BrunswickEmail" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ccpWest-Brunswick@tri-c.edu</Value>
+    </Setting>
+    <Setting Name="SetBackDays" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="AllowDuplicates" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ClosedMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)"> There are no Orientation Sessions available.  Please check back later.</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

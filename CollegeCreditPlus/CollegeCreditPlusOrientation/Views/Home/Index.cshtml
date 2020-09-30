@@ -1,0 +1,175 @@
+﻿@model CollegeCreditPlusOrientation.Models.Form
+
+@using Recaptcha.Web.Mvc;
+@using FormHelper;
+@using System.Web.Mvc;
+
+@using CollegeCreditPlusOrientation.Helpers;
+@using CollegeCreditPlusOrientation.Models
+
+@{
+    ViewBag.Title = "College Credit Plus Orientation";
+}
+
+@*<link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css">*@
+@using (Html.BeginForm("index","home", FormMethod.Post, new { id = "dataForm" }))
+{
+    <div class="form-horizontal">
+
+        <h1>@ViewBag.Title</h1>
+
+        @*<div class="row">
+            @Html.RquiredFieldIndicator() fields are required
+        </div>*@
+
+        <div class="row">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="dataPanel">
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">
+                    @Html.LabelExFor(m => m.SelectedEvent)
+                </div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.SelectedEvent, Model.Events, "--Select An Event--", new { @id = "eventDropDown",  @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SelectedEvent, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">
+                    @Html.LabelExFor(m => m.FirstName)
+                </div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" }  })
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.LastName)</div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control", maxlength = "50" } })
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.Address)</div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                    @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.City)</div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.City, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                    @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.State)</div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.State, Model.States, "-- Select State --", new { @class="form-control"})
+                    @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.Zipcode)</div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.Zipcode, new { htmlAttributes = new {  @class = "form-control", maxlength = "10" }})
+                    @Html.ValidationMessageFor(m => m.Zipcode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.PhoneNumber)</div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control", maxlength = "12" } })
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.EmailAddress)</div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.EmailAddress, new { htmlAttributes = new { @class = "form-control", maxlength = "50" }})
+                    @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.GradYear)</div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.GradYear, new { htmlAttributes = new { maxlength = "4" }, @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.GradYear, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.SchoolName)</div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.SchoolName, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                    @Html.ValidationMessageFor(m => m.SchoolName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.TriCNumber)</div>
+                <div class="col-md-8">
+                    @Html.EditorFor(m => m.TriCNumber, new { htmlAttributes = new {  @class = "form-control", maxlength = "9" } })
+                    @Html.ValidationMessageFor(m => m.TriCNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">@Html.LabelExFor(m => m.NbrAttending)</div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.NbrAttending, Enumerable.Range(1, 4).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.NbrAttending, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4"></div>
+                <div class="form-input-recaptcha">
+                    @Html.Recaptcha(theme: Recaptcha.Web.RecaptchaTheme.Clean)
+                    @Html.ValidationMessage("CaptchaError", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4"></div>
+                <div class="col-md-8">
+                    <button id="submit" class="btn btn-primary btn-lg btnMargin" name="submitButton" type="submit" tabindex="1000">Submit</button>
+                    <div class="container">
+                        <div class="spinner-border"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+    }
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.spinner-border').hide();
+
+            $('#PhoneNumber').keyup(function() {
+                $(this).val($(this).val().replace(/(\d{3})\-?(\d{3})\-?(\d{4})/, '$1-$2-$3'));
+            });
+
+            // <!-- show bootstrap spinner on form submit -->
+            $("#dataForm").submit(function(e) {
+                //alert("show spinner");
+                $(".spinner-border").show();
+            });
+        });
+    </script>
+}
