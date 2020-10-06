@@ -1,0 +1,82 @@
+﻿@model MathPath.Models.ViewModel.ResultsViewModel
+
+@{
+    int maxCourses = @Model.Paths.Select(p => p.CourseList.Count).Max();
+}
+
+<div class="container">
+    <!-- Table Header Row-->
+    <div class="row">
+        @*<div class="column d-none d-sm-block col-sm-1 headerRow center">Path</div>*@
+        <div class="column d-none d-sm-block col-sm-2 headerRow center">Fulfilled?</div>
+        <div class="column d-none d-sm-block col-sm-3 headerRow">Required Course</div>
+        <div class="column d-none d-sm-block col-sm-6 headerRow">Course Sequence</div>
+    </div>
+
+    <!-- Table Data -->
+    @foreach (var path in @Model.Paths)
+    {
+        int courseCount = @path.CourseList.Count;
+        string className = string.Empty;
+        int count = 0;
+        <div class="row">
+        <!-- mobile header & data -->
+        @*<!-- REMOVE PATH CODE PER USER
+        ========================== -->
+        <div class="column col-12 d-block d-sm-none headerRow">Path @path.Code</div></a>      
+            <!-- other device data-->
+             div class="column d-none d-sm-block col-sm-1 my-auto center">@path.Code</div>
+        <!-- =====================  -->*@
+
+        @if (path.TestedOut)
+        {
+            <!-- mobile header -->
+            <div class="column col-3 d-block d-sm-none headerCol">Fulfilled?</div>
+            <!-- data -->
+            <div class="column col-9 col-sm-2 center my-auto"><a class="btn btn-success"><i class="fa fa-check fa-lg"></i></a></div>
+        }
+        else
+        {
+            <!-- other device placeholder -->
+            <div class="column d-none d-sm-inline col-sm-2 center my-auto"><a class="btn btn-danger"><i class="fa fa-times fa-lg"></i></a></div>
+        }
+
+        <!-- mobile header -->
+        <div class="column col-12 d-block d-sm-none headerCol">Required Course:</div>
+        <!-- data -->
+        <div class="column col-12 col-sm-3 my-auto">@path.RequiredCourse</div>
+
+        <!-- mobile header -->
+        <div class="column col-12 d-block d-sm-none headerCol">Course Sequence</div>
+
+        <!-- data -->
+        <div class="column col-12 col-sm-6">
+            <div class="row">
+                @foreach (var course in @path.CourseList)
+                {
+                    count++;
+                    var courseInfo = $"{@course.Number} {@course.Name}";
+                    //className = string.Empty;
+                    //if (count == path.PlacementCourse)
+                    //{
+                    //    // className = "selectedCourse";
+                    //}
+
+                    <div class="col-12 col-sm-12">
+                        @if (count == path.PlacementCourse)
+                        {
+                            <a style="color: white;" class = "btn btn-info">@courseInfo</a>
+                        }
+                        else
+                        {
+                            @courseInfo
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+</div>
+        <hr />
+    }
+</div>

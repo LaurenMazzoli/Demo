@@ -1,0 +1,455 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MajorChangeTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Certificate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="ProgramCode" Type="varchar" MaxLength="50" />
+          <Property Name="AdditionalRequirements" Type="bit" Nullable="false" />
+          <Property Name="AidEligible" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateModified" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="PlacementLevel" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Degree">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="ProgramCode" Type="varchar" MaxLength="50" />
+          <Property Name="AdditionalRequirements" Type="bit" Nullable="false" />
+          <Property Name="AidEligible" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateModified" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Path">
+          <Key>
+            <PropertyRef Name="PathId" />
+          </Key>
+          <Property Name="PathId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Courses" Type="nvarchar" MaxLength="100" />
+          <Property Name="AllowTestOut" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Placement">
+          <Key>
+            <PropertyRef Name="PlacementId" />
+          </Key>
+          <Property Name="PlacementId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Aleks" Type="varchar" MaxLength="100" />
+          <Property Name="Act" Type="varchar" MaxLength="100" />
+          <Property Name="Sat" Type="varchar" MaxLength="100" />
+          <Property Name="Accuplacer" Type="nvarchar" MaxLength="100" />
+          <Property Name="PlacementLevel" Type="int" />
+        </EntityType>
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="ProgramId" />
+          </Key>
+          <Property Name="ProgramId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="DegreeId" Type="int" />
+          <Property Name="CertificateId" Type="int" />
+          <Property Name="ProgramCode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ProgramPath">
+          <Key>
+            <PropertyRef Name="ProgramPathId" />
+          </Key>
+          <Property Name="ProgramPathId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProgramId" Type="int" />
+          <Property Name="PathId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="RequiredCourse" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MajorChangeTest.dbo.MajorList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MajorList">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="ProgramCode" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MajorChangeTest.dbo.ProgramPathNames' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProgramPathNames">
+          <Key>
+            <PropertyRef Name="ProgramPathId" />
+            <PropertyRef Name="ProgramId" />
+            <PropertyRef Name="PathId" />
+          </Key>
+          <Property Name="ProgramCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProgramPathId" Type="int" Nullable="false" />
+          <Property Name="ProgramId" Type="int" Nullable="false" />
+          <Property Name="PathId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="RequiredCourse" Type="nvarchar" MaxLength="100" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_ProgramPath_Path">
+          <End Role="Path" Type="Self.Path" Multiplicity="0..1" />
+          <End Role="ProgramPath" Type="Self.ProgramPath" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Path">
+              <PropertyRef Name="PathId" />
+            </Principal>
+            <Dependent Role="ProgramPath">
+              <PropertyRef Name="PathId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramPath_Program">
+          <End Role="Program" Type="Self.Program" Multiplicity="0..1" />
+          <End Role="ProgramPath" Type="Self.ProgramPath" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="ProgramId" />
+            </Principal>
+            <Dependent Role="ProgramPath">
+              <PropertyRef Name="ProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MajorChangeTestModelStoreContainer">
+          <EntitySet Name="Certificate" EntityType="Self.Certificate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Degree" EntityType="Self.Degree" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Path" EntityType="Self.Path" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Placement" EntityType="Self.Placement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Program" EntityType="Self.Program" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProgramPath" EntityType="Self.ProgramPath" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MajorList" EntityType="Self.MajorList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MajorList].[Name] AS [Name], 
+    [MajorList].[ProgramCode] AS [ProgramCode]
+    FROM [dbo].[MajorList] AS [MajorList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ProgramPathNames" EntityType="Self.ProgramPathNames" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProgramPathNames].[ProgramCode] AS [ProgramCode], 
+    [ProgramPathNames].[ProgramPathId] AS [ProgramPathId], 
+    [ProgramPathNames].[ProgramId] AS [ProgramId], 
+    [ProgramPathNames].[PathId] AS [PathId], 
+    [ProgramPathNames].[Name] AS [Name], 
+    [ProgramPathNames].[RequiredCourse] AS [RequiredCourse], 
+    [ProgramPathNames].[Code] AS [Code]
+    FROM [dbo].[ProgramPathNames] AS [ProgramPathNames]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_ProgramPath_Path" Association="Self.FK_ProgramPath_Path">
+            <End Role="Path" EntitySet="Path" />
+            <End Role="ProgramPath" EntitySet="ProgramPath" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramPath_Program" Association="Self.FK_ProgramPath_Program">
+            <End Role="Program" EntitySet="Program" />
+            <End Role="ProgramPath" EntitySet="ProgramPath" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MajorChangeTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Certificate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProgramCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AdditionalRequirements" Type="Boolean" Nullable="false" />
+          <Property Name="AidEligible" Type="Boolean" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PlacementLevel" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Degree">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProgramCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AdditionalRequirements" Type="Boolean" Nullable="false" />
+          <Property Name="AidEligible" Type="Boolean" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Path">
+          <Key>
+            <PropertyRef Name="PathId" />
+          </Key>
+          <Property Name="PathId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Courses" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AllowTestOut" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProgramPaths" Relationship="Self.FK_ProgramPath_Path" FromRole="Path" ToRole="ProgramPath" />
+        </EntityType>
+        <EntityType Name="Placement">
+          <Key>
+            <PropertyRef Name="PlacementId" />
+          </Key>
+          <Property Name="PlacementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Aleks" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Act" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Sat" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Accuplacer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PlacementLevel" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="ProgramId" />
+          </Key>
+          <Property Name="ProgramId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DegreeId" Type="Int32" />
+          <Property Name="CertificateId" Type="Int32" />
+          <Property Name="ProgramCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ProgramPaths" Relationship="Self.FK_ProgramPath_Program" FromRole="Program" ToRole="ProgramPath" />
+        </EntityType>
+        <EntityType Name="ProgramPath">
+          <Key>
+            <PropertyRef Name="ProgramPathId" />
+          </Key>
+          <Property Name="ProgramPathId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProgramId" Type="Int32" />
+          <Property Name="PathId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RequiredCourse" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Path" Relationship="Self.FK_ProgramPath_Path" FromRole="ProgramPath" ToRole="Path" />
+          <NavigationProperty Name="Program" Relationship="Self.FK_ProgramPath_Program" FromRole="ProgramPath" ToRole="Program" />
+        </EntityType>
+        <EntityType Name="MajorList">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProgramCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ProgramPathName">
+          <Key>
+            <PropertyRef Name="ProgramPathId" />
+            <PropertyRef Name="ProgramId" />
+            <PropertyRef Name="PathId" />
+          </Key>
+          <Property Name="ProgramCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProgramPathId" Type="Int32" Nullable="false" />
+          <Property Name="ProgramId" Type="Int32" Nullable="false" />
+          <Property Name="PathId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RequiredCourse" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_ProgramPath_Path">
+          <End Role="Path" Type="Self.Path" Multiplicity="0..1" />
+          <End Role="ProgramPath" Type="Self.ProgramPath" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Path">
+              <PropertyRef Name="PathId" />
+            </Principal>
+            <Dependent Role="ProgramPath">
+              <PropertyRef Name="PathId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramPath_Program">
+          <End Role="Program" Type="Self.Program" Multiplicity="0..1" />
+          <End Role="ProgramPath" Type="Self.ProgramPath" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="ProgramId" />
+            </Principal>
+            <Dependent Role="ProgramPath">
+              <PropertyRef Name="ProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Certificates" EntityType="Self.Certificate" />
+          <EntitySet Name="Courses" EntityType="Self.Course" />
+          <EntitySet Name="Degrees" EntityType="Self.Degree" />
+          <EntitySet Name="Paths" EntityType="Self.Path" />
+          <EntitySet Name="Placements" EntityType="Self.Placement" />
+          <EntitySet Name="Programs" EntityType="Self.Program" />
+          <EntitySet Name="ProgramPaths" EntityType="Self.ProgramPath" />
+          <EntitySet Name="MajorLists" EntityType="Self.MajorList" />
+          <EntitySet Name="ProgramPathNames" EntityType="Self.ProgramPathName" />
+          <AssociationSet Name="FK_ProgramPath_Path" Association="Self.FK_ProgramPath_Path">
+            <End Role="Path" EntitySet="Paths" />
+            <End Role="ProgramPath" EntitySet="ProgramPaths" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramPath_Program" Association="Self.FK_ProgramPath_Program">
+            <End Role="Program" EntitySet="Programs" />
+            <End Role="ProgramPath" EntitySet="ProgramPaths" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MajorChangeTestModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Certificates">
+            <EntityTypeMapping TypeName="MajorChangeTestModel.Certificate">
+              <MappingFragment StoreEntitySet="Certificate">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProgramCode" ColumnName="ProgramCode" />
+                <ScalarProperty Name="AdditionalRequirements" ColumnName="AdditionalRequirements" />
+                <ScalarProperty Name="AidEligible" ColumnName="AidEligible" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="MajorChangeTestModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PlacementLevel" ColumnName="PlacementLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Degrees">
+            <EntityTypeMapping TypeName="MajorChangeTestModel.Degree">
+              <MappingFragment StoreEntitySet="Degree">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProgramCode" ColumnName="ProgramCode" />
+                <ScalarProperty Name="AdditionalRequirements" ColumnName="AdditionalRequirements" />
+                <ScalarProperty Name="AidEligible" ColumnName="AidEligible" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paths">
+            <EntityTypeMapping TypeName="MajorChangeTestModel.Path">
+              <MappingFragment StoreEntitySet="Path">
+                <ScalarProperty Name="PathId" ColumnName="PathId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Courses" ColumnName="Courses" />
+                <ScalarProperty Name="AllowTestOut" ColumnName="AllowTestOut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Placements">
+            <EntityTypeMapping TypeName="MajorChangeTestModel.Placement">
+              <MappingFragment StoreEntitySet="Placement">
+                <ScalarProperty Name="PlacementId" ColumnName="PlacementId" />
+                <ScalarProperty Name="Aleks" ColumnName="Aleks" />
+                <ScalarProperty Name="Act" ColumnName="Act" />
+                <ScalarProperty Name="Sat" ColumnName="Sat" />
+                <ScalarProperty Name="Accuplacer" ColumnName="Accuplacer" />
+                <ScalarProperty Name="PlacementLevel" ColumnName="PlacementLevel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Programs">
+            <EntityTypeMapping TypeName="MajorChangeTestModel.Program">
+              <MappingFragment StoreEntitySet="Program">
+                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DegreeId" ColumnName="DegreeId" />
+                <ScalarProperty Name="CertificateId" ColumnName="CertificateId" />
+                <ScalarProperty Name="ProgramCode" ColumnName="ProgramCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProgramPaths">
+            <EntityTypeMapping TypeName="MajorChangeTestModel.ProgramPath">
+              <MappingFragment StoreEntitySet="ProgramPath">
+                <ScalarProperty Name="ProgramPathId" ColumnName="ProgramPathId" />
+                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
+                <ScalarProperty Name="PathId" ColumnName="PathId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RequiredCourse" ColumnName="RequiredCourse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MajorLists">
+            <EntityTypeMapping TypeName="MajorChangeTestModel.MajorList">
+              <MappingFragment StoreEntitySet="MajorList">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProgramCode" ColumnName="ProgramCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProgramPathNames">
+            <EntityTypeMapping TypeName="MajorChangeTestModel.ProgramPathName">
+              <MappingFragment StoreEntitySet="ProgramPathNames">
+                <ScalarProperty Name="ProgramCode" ColumnName="ProgramCode" />
+                <ScalarProperty Name="ProgramPathId" ColumnName="ProgramPathId" />
+                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
+                <ScalarProperty Name="PathId" ColumnName="PathId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RequiredCourse" ColumnName="RequiredCourse" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

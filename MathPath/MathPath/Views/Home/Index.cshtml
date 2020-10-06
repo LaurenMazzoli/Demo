@@ -1,0 +1,339 @@
+﻿@model MathPath.Models.ViewModel.DataViewModel
+@using System.Web.Optimization
+@using FormHelper
+
+@{
+    ViewBag.Title = "Math Pathways";
+    // can I set these from the property settings?
+    const string ResultsMessage = "Course placement is determined by the placement test and placement score information entered. The course placement is highlighted in each path.";
+    const string ResultsTestOutMessage = "A check mark indicates that the placement score entered fulfills the course requirements for that pathway.";
+}
+<h2>@ViewBag.Title</h2>
+    @*@using (Html.BeginForm("index", "home", FormMethod.Post, new { id = "dataForm" }))
+    {*@
+        <div class="form-horizontal">
+            @*<!-- Row 1 -->*@
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">
+                    @Html.LabelExFor(model => model.SelectedMajor)
+                </div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.SelectedMajor, Model.MajorList, "-- Select Major --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectedMajor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @* <!-- Row 2 -->*@
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">
+                    @Html.LabelExFor(model => model.SelectedPlacementTest)
+                </div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.SelectedPlacementTest, Model.PlacementTestList, "-- Select Test --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectedPlacementTest, "", new { @class = "text-danger" })
+                </div>
+                @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+            </div>
+            @*<!-- Row 3 -->*@
+            <div class="form-group row">
+                <div class="col-md-4 col-form-control">
+                    @Html.LabelExFor(model => model.SelectedPlacementScore)
+                </div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.SelectedPlacementScore, Model.PlacementScoreList, "-- Select Score --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SelectedPlacementScore, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br/>
+
+            @*<!-- Button Row -->*@
+            <div id ="submitButtonRow" class="form-group row">
+                <div class="col-md-4"></div>
+                <div class="col-md-8">
+                    @*<input id ="resultsButton" type="submit" value="Get Paths &raquo;" class="btn btn-default btn-primary"/>*@
+                    <button id="resultsButton" class="btn btn-default btn-primary">Show Paths</button>
+                    <div class="container">
+                        <div class="spinner-border text-info"></div>
+                    </div>
+                </div>
+            </div>
+            
+            @*<!-- Results Panel -->*@
+            <div id="ResultsPanel" class="container">
+                <h2>MathPathway Results</h2>
+                <hr/>
+                <div class="form-group row"><p>@ResultsMessage @ResultsTestOutMessage</p></div>
+                <br/>
+                <div id="ResultsData">
+                    <div id="ResultsMessage"></div>
+                    <div id="ResultsTable" class="container">
+                        <!-- Table Header Row-->
+                        <div id ="ResultsTableHeader" class="row">
+                            <div class="column d-none d-sm-block col-sm-2 headerRow center">Fulfilled?</div>
+                            <div class="column d-none d-sm-block col-sm-3 headerRow">Required Course</div>
+                            <div class="column d-none d-sm-block col-sm-6 headerRow">Course Sequence</div>
+                        </div>
+                        <div id="ResultsTableData"></div>
+                    </div>
+                    <br/>
+                    <div class="form-group row">
+                        <p>If you have any questions about math pathways, please visit the Math Site at <a href="https://www.tri-c.edu/programs/STEM/mathematics/index.html" target="_blank">www.tri-c.edu/programs/STEM/mathematics/</a></p>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+        </div>
+@*}*@
+
+    @section scripts {
+        <script type="text/javascript">
+
+            // <!-- function to set Placement Scores -->
+            // -----------------------------------------------------------------
+            function setPlacementScores(result) {
+               // alert("in success function!");
+                var errorAttribute = 'span[data-valmsg-for="SelectedPlacementScore"]';
+
+                // <!-- reset error on selected field -->
+                $(errorAttribute).removeClass('field-validation-error');
+                $(errorAttribute).html("");
+                var placementScores = JSON.parse(result);
+                var dropdown = $("#SelectedPlacementScore");
+
+                if ($.isEmptyObject(placementScores)) {
+                    $(errorAttribute).html("No scores found. Choose a different Placement Test");
+                    $(errorAttribute).addClass('field-validation-error');
+                    $(errorAttribute).removeClass('field-validation-valid');
+                }
+
+                // this is leaving option value = 8.
+                // dropdown.remove('option');
+                dropdown.empty();
+                dropdown.append(($("<option />").val("").text("--Select score --")));
+
+                $.each(placementScores,
+                    function(key, value) {
+                        dropdown.append($("<option />").val(key).text(value));
+                    });
+            }
+
+            // <!-- function to get results -->
+            // -----------------------------------------------------------------
+            function getPathwayResults() {
+
+                // remove all child nodes
+                $("#ResultsTableData").empty();
+
+                var major = $('#SelectedMajor').val();
+                var test = $('#SelectedPlacementTest').val();
+                var score = $('#SelectedPlacementScore').val();
+
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetPathwayResults")',
+                    dataType: "json",
+                    data: { selectedMajor: major, selectedPlacementTest: test, selectedScore: score },
+                    error: function(r, e, s) {
+                        $(".spinner-border").hide();
+                        // display error message on screen
+                        $("#ResultsData").addClass("text-danger").html(e);
+                        // invoke error method
+                        var errorLink = '@Url.Action("Error")';
+                        window.location.replace(errorLink);
+                    },
+                    success: renderResultsData
+                });
+            }
+
+            //<!-- function to display results -->
+            // -----------------------------------------------------------------
+            function renderResultsData(result) {
+                var data = JSON.parse(result);
+                var paths = data.Paths;
+                if ($.isEmptyObject(paths) || paths.length < 1) {
+                    $("#ResultsData").addClass("text-danger").html("No results were found for this criteria");
+                  //  $("#ResultsMessage").html("No paths have been created for this criteria.");
+                    $("#ResultsTable").hide();
+                    return;
+                }
+
+                $("#ResultsTable").show();
+                buildTable(data.MaxNumCourses, paths);
+            };
+
+            // <!-- buildTable creates the nodes that displays the pathways -->
+            function buildTable(max, paths) {
+                var tableData = $("#ResultsTableData");
+                for (var i = 0; i < paths.length; i++) {
+                    var row = $("<div></div>").addClass("row");
+                    tableData.append(row);
+                    var path = paths[i];
+                    if (path.TestedOut) {
+                        // mobile header
+                        row.append($("<div></div>").text("Fulfilled?")
+                            .addClass("column col-3 d-block d-sm-none headerCol"));
+                        // data
+                        row.append($("<div></div>").addClass("column col-9 col-sm-2 center my-auto")
+                            .append($('<a class="btn btn-success"><i class="fa fa-check fa-lg"></i></a>')));
+                    } else {
+
+                        row.append($("<div></div>").addClass("column d-none d-sm-inline col-sm-2 center my-auto")
+                            .append($('<a class="btn btn-danger"><i class="fa fa-times fa-lg"></i></a>')));
+                    }
+
+                    row.append($("<div></div>").text("Required Course:")
+                        .addClass("column col-12  d-block d-sm-none headerCol"));
+
+                    row.append($("<div></div>").text(path.RequiredCourse).addClass("column col-12 col-sm-3 my-auto"));
+                    row.append($("<div></div>").text("Course Sequence:")
+                        .addClass("column col-12  d-block d-sm-none headerCol"));
+                    var courseSeq = $("<div></div>").addClass("row");
+                    row.append($("<div></div>").addClass("column col-12 col-sm-6").append(courseSeq));
+
+                    // course Sequence Data
+                    for (var j = 0; j < path.CourseList.length; j++) {
+                        var course = path.CourseList[j];
+                        var courseInfo = course.Number + " " + course.Name;
+                    //    if (j == path.PlacementCourse - 1) {
+                        if (course.CourseId == path.PlacementCourseId) {
+                        courseSeq.append($("<div></div>").addClass("col-12 col-sm-12")
+                                .append($('<a style="color: white;" class = "btn btn-info"></a>').text(courseInfo)));
+                        } else {
+
+                            courseSeq.append($("<div></div>").addClass("col-12 col-sm-12").text(courseInfo));
+                        }
+                    }
+
+                    tableData.append($("<hr></hr>"));
+                }
+            };
+
+            // ------------------------------------------ DOCUMENT READY FUNCTION  --------------------------------------------------
+            $(document).ready(function() {
+                $('.spinner-border').hide();
+
+                $('#ResultsPanel').hide();
+
+                $('#SelectedMajor').change(function() {
+                    $('#ResultsPanel').hide();
+                    var errorAttribute = 'span[data-valmsg-for="SelectedMajor"]';
+                    // <!-- reset error on selected field -->
+                    $(errorAttribute).removeClass('field-validation-error');
+                    $(errorAttribute).html("");
+
+                });
+
+                //<!-- SelectedPlacementScore change event handler -->
+                $('#SelectedPlacementScore').change(function() {
+                    var errorAttribute = 'span[data-valmsg-for="SelectedPlacementScore"]';
+                    // <!-- reset error on selected field -->
+                    $(errorAttribute).removeClass('field-validation-error');
+                    $(errorAttribute).html("");
+                    $('#ResultsPanel').hide();
+
+                });
+
+                //<!-- SelectedPlacementTest change event handler -->
+                $('#SelectedPlacementTest').change(function() {
+                    var errorAttribute = 'span[data-valmsg-for="SelectedPlacementTest"]';
+                    // <!-- reset error on selected field -->
+                    $(errorAttribute).removeClass('field-validation-error');
+                    $(errorAttribute).html("");
+                    $('#ResultsPanel').hide();
+
+                    // reset placement scores
+                    $('#SelectedPlacementScore option:first').attr("selected", true);
+                    var count = $('#SelectedPlacementScore option').length;
+                    for (var i = 0; i < count; i++) {
+                        $("#SelectedPlacementScore option[value='" + i + "']").remove();
+                    }
+
+                    // display placement test validation eror
+                    if ($(this).children(":selected").val() === "") {
+
+                        var errorAttribute = 'span[data-valmsg-for="SelectedPlacementTest"]';
+                        $(errorAttribute).html("Please select  test");
+                        $(errorAttribute).addClass('field-validation-error');
+                        $(errorAttribute).removeClass('field-validation-valid');
+                        return;
+                    }
+
+                    // get the placement scores
+                    $(".spinner-border").show();
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("GetPlacementScores")',
+                        dataType: "json",
+                        data: { placementTest: $(this).val() },
+                        error: function(r, e, s) {
+                          //  alert("error: " + e);
+                            $(".spinner-border").hide();
+                            var errorAttribute = 'span[data-valmsg-for="SelectedPlacementScore"]';
+                            $(errorAttribute).html("Error: Unable to set Placement Scores. " + e);
+                            $(errorAttribute).addClass('field-validation-error');
+                            $(errorAttribute).removeClass('field-validation-valid');
+                        },
+                        success: setPlacementScores
+                    });
+                    $(".spinner-border").hide();
+                });
+
+                // <!-- form submit -->
+                //$("#dataForm").submit(function(e) {
+                //    // alert("show spinner");
+                //    $(".spinner-border").show();
+                //    $('#ResultsButton').hide();
+                //    getPathwayResults();
+                //    $('#ResultsPanel').show();
+                //});
+
+                // on key press or enter key press
+                // check if data is entered and if so, execute getPathwayResults
+
+                $("#resultsButton").click(function() {
+                    // alert("In resultsButton event handler");
+                    // add validation logic here
+
+                    //var major = $('#SelectedMajor').val();
+                    //var test = $('#SelectedPlacementTest').val();
+                    // var score = $('#SelectedPlacementScore').val();
+                    var errorAttribute = "";
+                    var isValid = true;
+                    if ($('#SelectedMajor').children(":selected").val() === "") {
+
+                        errorAttribute = 'span[data-valmsg-for="SelectedMajor"]';
+                        $(errorAttribute).html("Please select a major");
+                        $(errorAttribute).addClass('field-validation-error');
+                        $(errorAttribute).removeClass('field-validation-valid');
+                        isValid = false;
+                    }
+                    if ($('#SelectedPlacementTest').children(":selected").val() === "") {
+
+                        errorAttribute = 'span[data-valmsg-for="SelectedPlacementTest"]';
+                        $(errorAttribute).html("Please select a placement test");
+                        $(errorAttribute).addClass('field-validation-error');
+                        $(errorAttribute).removeClass('field-validation-valid');
+                        isValid = false;
+                    }
+                    if ($('#SelectedPlacementScore').children(":selected").val() === "") {
+
+                        errorAttribute = 'span[data-valmsg-for="SelectedPlacementScore"]';
+                        $(errorAttribute).html("Please select a test score");
+                        $(errorAttribute).addClass('field-validation-error');
+                        $(errorAttribute).removeClass('field-validation-valid');
+                        isValid = false;
+                    }
+                    if (!isValid) {
+                        return;
+                    }
+
+                    $(".spinner-border").show();
+                    getPathwayResults();
+                    $('#ResultsPanel').show();
+                    $(".spinner-border").hide();
+                });
+
+            });
+        </script>
+    }
