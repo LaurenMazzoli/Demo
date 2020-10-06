@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30128.74
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPath", "MathPath\MathPath.csproj", "{70FFB886-8E1E-448A-8309-D4A769C724B9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{960C191C-1171-4A7E-9D38-396C44738556} = {960C191C-1171-4A7E-9D38-396C44738556}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPath.DAL", "MathPath.DAL\MathPath.DAL.csproj", "{960C191C-1171-4A7E-9D38-396C44738556}"
+EndProject
+Global
+	GlobalSection(VaultVsipSolution-v1) = preSolution
+		VaultHost = https://etechnology1/VaultService
+		VaultRepositoryID = 18
+		VaultRepositoryGUID = ccc31d77-ba74-4398-a602-1770ef1ae925
+		ProjectCount = 2
+		ProjectRelativeDiskPath1 = MathPath\MathPath.csproj
+		ProjectRelativeDiskPath2 = MathPath.DAL\MathPath.DAL.csproj
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70FFB886-8E1E-448A-8309-D4A769C724B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70FFB886-8E1E-448A-8309-D4A769C724B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70FFB886-8E1E-448A-8309-D4A769C724B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70FFB886-8E1E-448A-8309-D4A769C724B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960C191C-1171-4A7E-9D38-396C44738556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960C191C-1171-4A7E-9D38-396C44738556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960C191C-1171-4A7E-9D38-396C44738556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960C191C-1171-4A7E-9D38-396C44738556}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FEFE753B-AC60-4B2A-BBE6-48B0C2C326A6}
+	EndGlobalSection
+EndGlobal

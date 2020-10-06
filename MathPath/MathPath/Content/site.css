@@ -1,0 +1,157 @@
+﻿html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    padding-bottom: 20px;
+    font-size: 16px;
+    margin-bottom: 75px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.main-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    min-height: 100%;
+}
+
+.form-control {
+    font-size: inherit;
+}
+
+footer {
+    padding: 1em;
+    width: 100%;
+    margin: 0;
+    max-width: 100%;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+}
+h1, h2 {
+    padding-top: 2em;
+}
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 600px;
+}
+.radio-button-group > label {
+    font-weight: normal;
+}
+
+.std-paragraph {
+    padding-left: 1em;
+}
+
+@media only screen and (min-width: 863px) {
+    body {
+        padding-top: 75px;
+    }
+}
+
+@media only screen and (min-width:768px) {
+    label {
+        width: inherit;
+        text-align: right;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    body {
+        font-size: 95%;
+        padding-top: 0;
+    }  
+
+    .btn { width: 50%;}
+}
+
+.logo {
+    padding: 0;
+}
+
+/* hide the search bar */
+#search {
+    display: none;
+}
+
+/* hide the header nav links */
+.toggleMenu, .nav {
+    display: none;
+}
+
+#globalNav ul {
+    display: none;
+}
+
+#dataForm {
+    padding: 1em 2em;
+}
+
+#thanks-page, #error-page {
+    margin-top: 3.5em;
+}
+
+table
+{
+    border-collapse: separate;
+    border-spacing: 5px 15px;
+}
+
+.tableRow {
+    background-color: white;
+    padding-top: 2em;
+    display: table-row
+}
+
+.tableColumn {
+    padding: 0 4em;
+    border: none;
+    display: table-column;
+}
+.headerRow {
+    background-color: lightgrey;
+    color: black;
+    width: 100%;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    margin-bottom: .5em;
+    font-weight: bold;
+}
+.headerCol {
+    font-weight: bold;
+}
+
+.displayData {
+    color: teal;
+}
+
+.row { 
+    margin-bottom: .5em;
+}
+
+.spinner-border {
+    margin-top: 12px;
+}
+
+.btn {
+    font-size: inherit;
+    min-width: 6em;
+}
+
+.selectedCourse { 
+    background-color: teal; color: white;
+    padding: .5em 15px;
+}
+
+.selectedCheck {
+    background-color: teal; color: white;
+    padding: .5em 0; 
+}
+
+.center { text-align: center; }
+
+.alignMiddle { vertical-align: middle; }

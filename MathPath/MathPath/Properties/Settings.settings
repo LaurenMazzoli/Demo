@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MathPath.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ApplicationId" Type="System.Guid" Scope="Application">
+      <Value Profile="(Default)">ea131d0b-18f3-45cc-be6c-6a9aaf879ac5</Value>
+    </Setting>
+    <Setting Name="devMode" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ResultMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FormMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="WebSqlFormsId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D5C1D48B-AF92-4967-BB81-30B12C2E1F50</Value>
+    </Setting>
+    <Setting Name="ThanksMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

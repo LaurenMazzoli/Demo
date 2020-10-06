@@ -1,0 +1,64 @@
+﻿@using System.Activities.Statements
+@model MathPath.Models.ViewModel.ResultsViewModel
+@using FormHelper
+@{
+    ViewBag.Title = "Math Pathway Results";
+
+    int maxCourses = @Model.Paths.Any() ? @Model.Paths.Select(p => p.CourseList.Count).Max() : 0;
+
+    const string Message = "Course placement is determined by the placement test and placement score information entered. The course placement is highlighted in each path.";
+    const string TestOutMessage = "A check mark indicates that the placement score entered fulfills the course requirements for that pathway.";
+}
+    <h2>@ViewBag.Title</h2>
+    <hr/>
+    <div class="container">
+        <div class="form-group row">
+            <div class="col-md-2 col-form-control">
+                @Html.LabelExFor(model => model.Major)
+            </div>
+            <div class="col-md-10 displayData">
+                @Html.DisplayFor(model => model.Major)
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-2 col-form-control">
+                @Html.LabelExFor(model => model.Placement)
+            </div>
+            <div class="col-md-10 displayData">
+                @Html.DisplayFor(model => model.Placement)
+            </div>
+        </div>
+
+        <hr/>
+        <div class="form-group row"><p>@Message @TestOutMessage</p></div>
+        <br/>
+
+        @if (!Model.Paths.Any())
+        {
+            <div class="form-group row">
+                <p class="alert-danger">There are no paths for this criteria.</p>
+            </div>
+        }
+        else
+        {
+            Html.RenderPartial("PathTable");
+        }
+
+    <br/>
+    <div class="form-group row">
+        <p>If you have any questions about math pathways, please visit the Math Site at <a href="https://www.tri-c.edu/programs/STEM/mathematics/index.html" target="_blank">www.tri-c.edu/programs/STEM/mathematics/</a></p>
+    </div>
+    <br/>
+    <div class="form-group row">
+        <div class="col-md-4"></div>
+        <div class="col-md-8">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-default btn-primary">Back</a>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function() {
+        });
+    </script>
+}
